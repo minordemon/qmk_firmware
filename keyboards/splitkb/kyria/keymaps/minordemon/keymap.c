@@ -51,18 +51,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * | LShift |   A  |   R  |   S  |   T  |   D  |                              |   H  |   N  |   E  |   I  |   O  |  ;  :  |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | Ctrl   |   Z  |   X  |   C  |   V  |   B  | [ {  |CapsLk|  |F-keys|  ] } |   K  |   M  | ,  < | . >  | /  ? | RShift |
+ * | Ctrl   |   Z  |   X  |   C  |   V  |   B  | [ {  | Esc  |  | F12  |Leader|   K  |   M  | ,  < | . >  | /  ? | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |Adjust| Tab  | Space| Cmd  | Nav  |  | Sym  | Enter| Bksp | Del  | Menu |
- *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |      |      |  L1  |      |      |  |      |      |  L2  |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
 
   [_COLEMAK_NL] = LAYOUT(
-    KC_TAB,   KC_Q,  KC_W, KC_F,   KC_P,   KC_G,                                      KC_Y  ,   KC_L,  KC_U ,   KC_J ,KC_QUOTE, KC_BSPC,
-    KC_LSFT,  KC_A,  KC_R, KC_S,   KC_T,   KC_D,                                      KC_H  ,   KC_N,  KC_E ,   KC_I ,  KC_O  , KC_SCLN,
-    KC_LCTL,  KC_Z,  KC_X, KC_C,   KC_V,   KC_B,    KC_LALT, KC_ESC, KC_F12, KC_LCTL, KC_K,   KC_M  ,KC_COMM, KC_DOT ,KC_SLSH , KC_RSFT,
-                           ADJUST, KC_TAB,LT(1,KC_SPC),KC_LGUI, NAV   , SYM   , KC_ENT , LT(2,KC_BSPC), KC_DEL, KC_APP
+    KC_TAB,   KC_Q,  KC_W, KC_F,   KC_P,  KC_G,                                             KC_Y,             KC_L,  KC_U ,   KC_J ,KC_QUOTE, KC_BSPC,
+    KC_LSFT,  KC_A,  KC_R, KC_S,   KC_T,  KC_D,                                             KC_H,             KC_N,  KC_E ,   KC_I ,  KC_O  , KC_SCLN,
+    KC_LCTL,  KC_Z,  KC_X, KC_C,   KC_V,  KC_B,           KC_LALT, KC_ESC, KC_F12, KC_LEAD, KC_K,             KC_M,  KC_COMM, KC_DOT ,KC_SLSH,KC_RSFT,
+                           ADJUST, KC_TAB,LT(_NAV,KC_SPC),KC_LGUI, NAV   , SYM   , KC_ENT , LT(_SYM,KC_BSPC), KC_DEL, KC_APP
     ),
 
 /*
@@ -73,17 +73,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * |        |  GUI |  Alt | Ctrl | Shift|      |                              | PgDn |  ←   |   ↓  |   →  | VolDn| Insert |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |ScLck |  |      |      | Pause|M Prev|M Play|M Next|VolMut| PrtSc  |
+ * |        |      |      |      |      |      |      |      |  |      |      | Pause|M Prev|M Play|M Next|VolMut| PrtSc  |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |      |      | (L1) |      |      |  |      |      | Bksp |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
     [_NAV] = LAYOUT(
       _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_EQL,
       _______, KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, KC_NO,                                        KC_NO,   KC_LEFT, KC_UP,   KC_DOWN, KC_RGHT,  KC_MINS,
-      _______, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   _______, KC_SLCK, _______, _______,  KC_NO,   KC_HOME, KC_PGUP, KC_PGDN, KC_END,   KC_NO,
-                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+      _______, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   _______, _______, _______, _______,  KC_NO,   KC_HOME, KC_PGUP, KC_PGDN, KC_END,   KC_NO,
+                                 _______, _______, _______, _______, _______, _______, _______, KC_BSPC, _______, _______
     ),
 
 /*
@@ -96,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * |    |   |   \  |  :   |  ;   |  -   |  [   |  {   |      |  |      |   }  |   ]  |  _   |  ,   |  .   |  /   |   ?    |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |      |      |      |      |      |  |      | (L2) |      |      |      |
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
@@ -104,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______,  KC_GRV, KC_TILD, KC_HASH, KC_PERC, KC_NO,                                       KC_NO,   KC_EQL,  KC_ASTR, KC_NO,   KC_DQUO, KC_NO,
       _______,  KC_AT,  KC_LPRN, KC_LBRC, KC_LCBR, KC_LT,                                       KC_CIRC, KC_MINS, KC_SLSH, KC_PIPE, KC_DLR,  KC_COLN,
       _______,  KC_AMPR,KC_RPRN, KC_RBRC, KC_RCBR, KC_GT,   _______, _______, _______, _______, KC_PLUS, KC_UNDS, KC_QUES, KC_EXLM, KC_BSLS, KC_NO,
-                                 _______, _______, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
 /*
@@ -170,6 +170,41 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 //     ),
 };
+
+bool is_alt_tab_active = false;
+uint16_t alt_tab_timer = 0;
+
+LEADER_EXTERNS();
+
+void matrix_scan_user(void) {
+    if (is_alt_tab_active) {
+        if (timer_elapsed(alt_tab_timer) > 1000) {
+            unregister_code(KC_LALT);
+            is_alt_tab_active = false;
+        }
+    }
+
+    LEADER_DICTIONARY() {
+        leading = false;
+        leader_end();
+
+        SEQ_ONE_KEY(KC_C) { // Inline Code
+            SEND_STRING("``" SS_TAP(X_LEFT));
+        }
+        SEQ_ONE_KEY(KC_QUOTE) { // Single Quote
+            SEND_STRING("''" SS_TAP(X_LEFT));
+        }
+        SEQ_TWO_KEYS(KC_E, KC_O) { // Support email splitkb
+            SEND_STRING("jeroen@ontwerpwerk.nl");
+        }
+        SEQ_THREE_KEYS(KC_M, KC_V, KC_G) { // Greeting
+            SEND_STRING("Met vriendelijke groet,\n\nJeroen Harkes");
+        }
+        SEQ_THREE_KEYS(KC_O, KC_W, KC_W) { // Ontwerpwerk
+            SEND_STRING("Ontwerpwerk");
+        }
+    }
+}
 
 /* The default OLED and rotary encoder code can be found at the bottom of qmk_firmware/keyboards/splitkb/kyria/rev1/rev1.c
  * These default settings can be overriden by your own settings in your keymap.c
