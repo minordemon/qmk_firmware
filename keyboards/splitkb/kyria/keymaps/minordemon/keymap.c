@@ -36,6 +36,9 @@ enum layers {
 #define CTL_MINS MT(MOD_RCTL, KC_MINUS)
 #define ALT_ENT MT(MOD_LALT, KC_ENT)
 
+#define SPC_NAV LT(_NAV,KC_SPC)
+#define BSP_SYM LT(_SYM,KC_BSPC)
+
 // Note: LAlt/Enter (ALT_ENT) is not the same thing as the keyboard shortcut Alt+Enter.
 // The notation `mod/tap` denotes a key that activates the modifier `mod` when held down, and
 // produces the key `tap` when tapped (i.e. pressed and released).
@@ -51,7 +54,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * | LShift |   A  |   R  |   S  |   T  |   D  |                              |   H  |   N  |   E  |   I  |   O  |  ;  :  |
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | Ctrl   |   Z  |   X  |   C  |   V  |   B  | [ {  | Esc  |  | F12  |Leader|   K  |   M  | ,  < | . >  | /  ? | RShift |
+ * | Ctrl   |   Z  |   X  |   C  |   V  |   B  | Alt  | Esc  |  | F12  |Leader|   K  |   M  | ,  < | . >  | /  ? | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        |Adjust| Tab  | Space| Cmd  | Nav  |  | Sym  | Enter| Bksp | Del  | Menu |
  *                        |      |      |  L1  |      |      |  |      |      |  L2  |      |      |
@@ -59,10 +62,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
   [_COLEMAK_NL] = LAYOUT(
-    KC_TAB,   KC_Q,  KC_W, KC_F,   KC_P,  KC_G,                                             KC_Y,             KC_L,  KC_U ,   KC_J ,KC_QUOTE, KC_BSPC,
-    KC_LSFT,  KC_A,  KC_R, KC_S,   KC_T,  KC_D,                                             KC_H,             KC_N,  KC_E ,   KC_I ,  KC_O  , KC_SCLN,
-    KC_LCTL,  KC_Z,  KC_X, KC_C,   KC_V,  KC_B,           KC_LALT, KC_ESC, KC_F12, KC_LEAD, KC_K,             KC_M,  KC_COMM, KC_DOT ,KC_SLSH,KC_RSFT,
-                           ADJUST, KC_TAB,LT(_NAV,KC_SPC),KC_LGUI, NAV   , SYM   , KC_ENT , LT(_SYM,KC_BSPC), KC_DEL, KC_APP
+    KC_TAB,   KC_Q,  KC_W, KC_F,   KC_P,  KC_G,                                      KC_Y,    KC_L,   KC_U,    KC_J,   KC_QUOT, KC_BSPC,
+    KC_LSFT,  KC_A,  KC_R, KC_S,   KC_T,  KC_D,                                      KC_H,    KC_N,   KC_E,    KC_I,   KC_O   , KC_SCLN,
+    KC_LCTL,  KC_Z,  KC_X, KC_C,   KC_V,  KC_B,    KC_LALT, KC_ESC, KC_F12, KC_LEAD, KC_K,    KC_M,   KC_COMM, KC_DOT, KC_SLSH, KC_RSFT,
+                           ADJUST, KC_TAB,SPC_NAV, KC_LGUI, NAV,    SYM,    KC_ENT , BSP_SYM, KC_DEL, KC_APP
     ),
 
 /*

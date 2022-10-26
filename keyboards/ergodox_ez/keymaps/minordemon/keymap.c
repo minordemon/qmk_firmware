@@ -5,50 +5,68 @@
 #include "debug.h"
 #include "action_layer.h"
 
-#define BASE 0 // default layer
-#define SYMB 1 // symbols
-#define MDIA 2 // media keys
+enum layers {
+    _COLEMAK_NL = 0,
+    _NAV,
+    _SYM,
+    _FUNCTION,
+    _ADJUST,
+};
 
+// Aliases for readability
+#define COLEMAK DF(_COLEMAK_NL)
+
+#define SYM MO(_SYM)
+#define NAV MO(_NAV)
+#define FKEYS MO(_FUNCTION)
+#define ADJUST MO(_ADJUST)
+
+#define SPC_NAV LT(_NAV,KC_SPC)
+#define BSP_SYM LT(_SYM,KC_BSPC)
+
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-/* Keymap 0: Basic layer
+/*
+ * Base Layer: Colemak DH
  *
- * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |   =    |   1  |   2  |   3  |   4  |   5  | LEFT |           | RIGHT|   6  |   7  |   8  |   9  |   0  |   -    |
- * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Del    |   Q  |   W  |   E  |   R  |   T  |  L1  |           |  L1  |   Y  |   U  |   I  |   O  |   P  |   \    |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * | BkSp   |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |; / L2|  LGui  |
- * |--------+------+------+------+------+------| Hyper|           | Meh  |------+------+------+------+------+--------|
- * | LShift |Z/Ctrl|   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |//Ctrl| RShift |
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |Grv/L1|  '"  |AltShf| Left | Right|                                       |  Up  | Down |   [  |   ]  | ~L1  |
- *   `----------------------------------'                                       `----------------------------------'
- *                                        ,-------------.       ,-------------.
- *                                        | App  | LGui |       | Alt  |Ctrl/Esc|
- *                                 ,------|------|------|       |------+--------+------.
- *                                 |      |      | Home |       | PgUp |        |      |
- *                                 | Space|Backsp|------|       |------|  Tab   |Enter |
- *                                 |      |ace   | End  |       | PgDn |        |      |
- *                                 `--------------------'       `----------------------'
+ * ,--------------------------------------------------.                ,--------------------------------------------------.
+ * | Grv    |   1  |   2  |   3  |   4  |   5  | LEFT |                | RIGHT|   6  |   7  |   8  |   9  |   0  |   -    |
+ * |--------+------+------+------+------+-------------|                |------+------+------+------+------+------+--------|
+ * |  Tab   |   Q  |   W  |   F  |   P  |   G  |  L1  |                |  L1  |   Y  |   L  |   U  |   J  | '  " |  Bksp  |
+ * |--------+------+------+------+------+------|      |                |      |------+------+------+------+------+--------|
+ * | LShift |   A  |   R  |   S  |   T  |   D  |------|                |------|   H  |   N  |   E  |   I  |   O  |   ;    |
+ * |--------+------+------+------+------+------| Hyper|                | Meh  |------+------+------+------+------+--------|
+ * |  Ctrl  |   Z  |   X  |   C  |   V  |   B  |      |                |      |   K  |   M  |   ,  |   .  |   /  | RShift |
+ * `--------+------+------+------+------+-------------'                `-------------+------+------+------+------+--------'
+ *   |Grv/L1|  '"  |AltShf| Left | Right|                                            |  Up  | Down |   [  |   ]  | ~L1  |
+ *   `----------------------------------'                                            `----------------------------------'
+ *                                             ,-------------.  ,---------------.
+ *                                             | App  | Esc  |  | Alt  |Ctrl/Esc|
+ *                                      ,------|------|------|  |------+--------+------.
+ *                                      |      |      | Home |  | PgUp |        |      |
+ *                                      | Space| Cmd  |------|  |------|  Tab   |Enter |
+ *                                      |  L1  |      | End  |  | PgDn |        |      |
+ *                                      `--------------------'  `----------------------'
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
 // Otherwise, it needs KC_*
-[BASE] = LAYOUT_ergodox(  // layer 0 : default
+[_COLEMAK_NL] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
-        KC_EQL,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   KC_LEFT,
-        KC_DEL,         KC_Q,         KC_W,   KC_E,   KC_R,   KC_T,   TG(SYMB),
-        KC_BSPC,        KC_A,         KC_S,   KC_D,   KC_F,   KC_G,
-        KC_LSFT,        CTL_T(KC_Z),  KC_X,   KC_C,   KC_V,   KC_B,   ALL_T(KC_NO),
-        LT(SYMB,KC_GRV),KC_QUOT,      LALT(KC_LSFT),  KC_LEFT,KC_RGHT,
-                                              ALT_T(KC_APP),  KC_LGUI,
-                                                              KC_HOME,
-                                               KC_SPC,KC_BSPC,KC_END,
+        KC_GRV,         KC_1,    KC_2,         KC_3,    KC_4,   KC_5,   KC_LEFT,
+        KC_TAB,         KC_Q,    KC_W,         KC_F,    KC_P,   KC_G,   TG(SYMB),
+        KC_LSFT,        KC_A,    KC_R,         KC_S,    KC_T,   KC_D,
+        KC_LCTL,        KC_Z,    KC_X,         KC_C,    KC_V,   KC_B,   ALL_T(KC_NO),
+        LT(SYMB,KC_GRV),KC_QUOT, LALT(KC_LSFT),KC_LEFT, KC_RGHT,
+                                               ALT_T(KC_APP),   KC_ESC,
+                                                                KC_HOME,
+                                               SPC_NAV, KC_LGUI,KC_END,
+
         // right hand
-             KC_RGHT,     KC_6,   KC_7,   KC_8,   KC_9,   KC_0,             KC_MINS,
-             TG(SYMB),       KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,             KC_BSLS,
-                          KC_H,   KC_J,   KC_K,   KC_L,   LT(MDIA, KC_SCLN),KC_LGUI,
-             MEH_T(KC_NO),KC_N,   KC_M,   KC_COMM,KC_DOT, CTL_T(KC_SLSH),   KC_RSFT,
-                                  KC_UP,  KC_DOWN,KC_LBRC,KC_RBRC,          TT(SYMB),
+             KC_RGHT,     KC_6,   KC_7,   KC_8,   KC_9,   KC_0,      KC_MINS,
+             TG(SYMB),    KC_Y,   KC_L,   KC_U,   KC_J,   KC_QUOT,   KC_DEL,
+                          KC_H,   KC_N,   KC_ E,  KC_I,   KC_O,      KC_SCLN,
+             MEH_T(KC_NO),KC_K,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,   KC_RSFT,
+                                  KC_UP,  KC_DOWN,KC_LBRC,KC_RBRC,   TT(SYMB),
              KC_LALT,        CTL_T(KC_ESC),
              KC_PGUP,
              KC_PGDN,KC_TAB, KC_ENT
@@ -75,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 // SYMBOLS
-[SYMB] = LAYOUT_ergodox(
+[_NAV] = LAYOUT_ergodox(
        // left hand
        KC_TRNS,KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_TRNS,
        KC_TRNS,KC_EXLM,KC_AT,  KC_LCBR,KC_RCBR,KC_PIPE,KC_TRNS,
@@ -117,7 +135,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 // MEDIA AND MOUSE
-[MDIA] = LAYOUT_ergodox(
+[_SYM] = LAYOUT_ergodox(
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_TRNS, KC_TRNS, KC_MS_U, KC_TRNS, KC_TRNS, KC_TRNS,
        KC_TRNS, KC_TRNS, KC_MS_L, KC_MS_D, KC_MS_R, KC_TRNS,
