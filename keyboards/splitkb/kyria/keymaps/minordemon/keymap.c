@@ -56,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * | Ctrl   |   Z  |   X  |   C  |   V  |   B  | Alt  | Esc  |  | F12  |Leader|   K  |   M  | ,  < | . >  | /  ? | RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |Adjust| Tab  | Space| Cmd  | Nav  |  | Sym  | Enter| Bksp | Del  | Menu |
+ *                        |Adjust| Tab  | Space| Cmd  | Hyper|  | Sym  | Enter| Bksp | Del  | Menu |
  *                        |      |      |  L1  |      |      |  |      |      |  L2  |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
@@ -65,22 +65,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,   KC_Q,  KC_W, KC_F,   KC_P,  KC_G,                                      KC_Y,    KC_L,   KC_U,    KC_J,   KC_QUOT, KC_BSPC,
     KC_LSFT,  KC_A,  KC_R, KC_S,   KC_T,  KC_D,                                      KC_H,    KC_N,   KC_E,    KC_I,   KC_O   , KC_SCLN,
     KC_LCTL,  KC_Z,  KC_X, KC_C,   KC_V,  KC_B,    KC_LALT, KC_ESC, KC_F12, KC_LEAD, KC_K,    KC_M,   KC_COMM, KC_DOT, KC_SLSH, KC_RSFT,
-                           ADJUST, KC_TAB,SPC_NAV, KC_LGUI, NAV,    SYM,    KC_ENT , BSP_SYM, KC_DEL, KC_APP
+                           ADJUST, KC_TAB,SPC_NAV, KC_LGUI, KC_HYPR,SYM,    KC_ENT , BSP_SYM, KC_DEL, KC_APP
     ),
 
 /*
  * Nav Layer: Media, navigation
  *
- * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |      |      |      |      |                              | PgUp | Home |   ↑  | End  | VolUp| Delete |
- * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |  GUI |  Alt | Ctrl | Shift|      |                              | PgDn |  ←   |   ↓  |   →  | VolDn| Insert |
- * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |      |  |      |      | Pause|M Prev|M Play|M Next|VolMut| PrtSc  |
- * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      | (L1) |      |      |  |      |      | Bksp |      |      |
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        `----------------------------------'  `----------------------------------'
+ * ,-----------------------------------------------.                                  ,-----------------------------------------------.
+ * |       |   1   |   2   |  3    |  4    |  5    |                                  |   6   |   7   |   8   |  9    |  0    |   =   |
+ * |-------+-------+-------+-------+-------+-------|                                  |-------+-------+-------+-------+-------+-------|
+ * |       |  Ctrl |  Alt  | Ctrl  | Shift |       |                                  |       |   ←  |  ↑   |  ↓   |  →   |   -   |
+ * |-------+-------+-------+-------+-------+-------+---------------.  ,-------+-------+-------+-------+-------+-------+-------+-------|
+ * |       |       |       |       |       |       |       |       |  |       |       |       | Home  | PGUP  | PGDN  | END   |       |
+ * `-----------------------+-------+-------+-------+-------+-------|  |-------+-------+-------+-------+-------+-----------------------'
+ *                         |       |       | (L1)  |       |       |  |       |       | Bksp  |       |       |
+ *                         `---------------------------------------'  `---------------------------------------'
  */
     [_NAV] = LAYOUT(
       _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_EQL,
@@ -235,7 +234,7 @@ bool oled_task_user(void) {
         oled_write_P(PSTR("Layer: "), false);
         switch (get_highest_layer(layer_state | default_layer_state)) {
             case 0:
-                oled_write_P(PSTR("Colemak-NL\n"), false);
+                oled_write_P(PSTR("ColemakNL-Mac\n"), false);
                 break;
             case 1:
                 oled_write_P(PSTR("Nav\n"), false);
