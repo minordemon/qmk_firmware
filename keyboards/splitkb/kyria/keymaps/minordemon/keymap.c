@@ -16,8 +16,8 @@
 #include QMK_KEYBOARD_H
 
 enum layers {
-    _COLEMAK_MAC = 0,
-    _COLEMAK_WIN,
+    _COLEMAK_NL_MAC = 0,
+    _COLEMAK_NL_WIN,
     _NAV,
     _SYM,
     _FUNCTION,
@@ -150,7 +150,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
  * Adjust Layer: Default layer settings, RGB
  *   ,-----------------------------------------------------.                                      ,-----------------------------------------------------.
- *   |        |        |        |        |        |        |                                      |        |        |        |        |        |        |
+ *   |        |  Mac   |  Win   |        |        |        |                                      |        |        |        |        |        |        |
  *   |--------+--------+--------+--------+--------+--------|                                      |--------+--------+--------+--------+--------+--------|
  *   |        |        |        |        |        |        |                                      | RGB_TG |  SAT+  |  HUE+  |  VAL+  |  MOD+  |        |
  *   |--------+--------+--------+--------+--------+--------+-----------------.  ,--------+--------+--------+--------+--------+--------+--------+--------|
@@ -160,7 +160,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                              `--------------------------------------------'  `--------------------------------------------'
  */
     [_ADJUST] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,                                        _______, _______, _______, _______, _______, _______,
+      _______, DF(0),   DF(1),   _______, _______, _______,                                        _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______,                                        RGB_TOG, RGB_SAI, RGB_HUI, RGB_VAI, RGB_MOD, _______,
       _______, _______, _______, _______, _______, _______, _______, _______,    _______, _______, _______, RGB_SAD, RGB_HUD, RGB_VAD, RGB_RMOD,_______,
                                  _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______
@@ -204,13 +204,13 @@ void matrix_scan_user(void) {
         leading = false;
         leader_end();
 
-        SEQ_ONE_KEY(KC_C) { // Inline Code
-            SEND_STRING("``" SS_TAP(X_LEFT));
-        }
-        SEQ_ONE_KEY(KC_QUOTE) { // Single Quote
-            SEND_STRING("''" SS_TAP(X_LEFT));
-        }
-        SEQ_TWO_KEYS(KC_E, KC_O) { // Support email splitkb
+        // SEQ_ONE_KEY(KC_C) { // Inline Code
+        //     SEND_STRING("``" SS_TAP(X_LEFT));
+        // }
+        // SEQ_ONE_KEY(KC_QUOTE) { // Single Quote
+        //     SEND_STRING("''" SS_TAP(X_LEFT));
+        // }
+        SEQ_TWO_KEYS(KC_E, KC_O) { // Email
             SEND_STRING("jeroen@ontwerpwerk.nl");
         }
         SEQ_THREE_KEYS(KC_M, KC_V, KC_G) { // Greeting
@@ -235,20 +235,23 @@ bool oled_task_user(void) {
     if (is_keyboard_master()) {
         // QMK Logo and version information
         // clang-format off
-        static const char PROGMEM qmk_logo[] = {
-            0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,0x90,0x91,0x92,0x93,0x94,
-            0xa0,0xa1,0xa2,0xa3,0xa4,0xa5,0xa6,0xa7,0xa8,0xa9,0xaa,0xab,0xac,0xad,0xae,0xaf,0xb0,0xb1,0xb2,0xb3,0xb4,
-            0xc0,0xc1,0xc2,0xc3,0xc4,0xc5,0xc6,0xc7,0xc8,0xc9,0xca,0xcb,0xcc,0xcd,0xce,0xcf,0xd0,0xd1,0xd2,0xd3,0xd4,0};
-        // clang-format on
+        // static const char PROGMEM qmk_logo[] = {
+        //     0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,0x90,0x91,0x92,0x93,0x94,
+        //     0xa0,0xa1,0xa2,0xa3,0xa4,0xa5,0xa6,0xa7,0xa8,0xa9,0xaa,0xab,0xac,0xad,0xae,0xaf,0xb0,0xb1,0xb2,0xb3,0xb4,
+        //     0xc0,0xc1,0xc2,0xc3,0xc4,0xc5,0xc6,0xc7,0xc8,0xc9,0xca,0xcb,0xcc,0xcd,0xce,0xcf,0xd0,0xd1,0xd2,0xd3,0xd4,0};
+        // // clang-format on
 
-        oled_write_P(qmk_logo, false);
+        // oled_write_P(qmk_logo, false);
         oled_write_P(PSTR("Kyria rev2.0\n\n"), false);
 
         // Host Keyboard Layer Status
         oled_write_P(PSTR(">>> "), false);
         switch (get_highest_layer(layer_state | default_layer_state)) {
-            case 0:
+            case _COLEMAK_NL_MAC:
                 oled_write_P(PSTR("ColemakNL-Mac\n"), false);
+                break;
+            case _COLEMAK_NL_WIN:
+                oled_write_P(PSTR("ColemakNL-Win\n"), false);
                 break;
             case _NAV:
                 oled_write_P(PSTR("Nav\n"), false);
@@ -300,11 +303,20 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             tap_code(KC_VOLD);
         }
     } else if (index == 1) {
-        // Page up/Page down
-        if (clockwise) {
-            tap_code(KC_RIGHT);
+        if (get_highest_layer(layer_state | default_layer_state) == _NAV) {
+            // Scroll Up/Down
+            if (clockwise) {
+                tap_code(KC_WH_D);
+            } else {
+                tap_code(KC_WH_U);
+            }
         } else {
-            tap_code(KC_LEFT);
+            // Left/Right
+            if (clockwise) {
+                tap_code(KC_RIGHT);
+            } else {
+                tap_code(KC_LEFT);
+            }
         }
     }
     return false;
