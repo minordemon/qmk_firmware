@@ -16,7 +16,8 @@
 #include QMK_KEYBOARD_H
 
 enum layers {
-    _COLEMAK_NL = 0,
+    _COLEMAK_MAC = 0,
+    _COLEMAK_WIN,
     _NAV,
     _SYM,
     _FUNCTION,
@@ -24,17 +25,17 @@ enum layers {
 };
 
 // Aliases for readability
-#define COLEMAK DF(_COLEMAK_NL)
+// #define COLEMAK DF(_COLEMAK_MAC)
 
 #define SYM MO(_SYM)
 #define NAV MO(_NAV)
-#define FKEYS MO(_FUNCTION)
+// #define FKEYS MO(_FUNCTION)
 #define ADJUST MO(_ADJUST)
 
-#define CTL_ESC MT(MOD_LCTL, KC_ESC)
-#define CTL_QUOT MT(MOD_RCTL, KC_QUOTE)
-#define CTL_MINS MT(MOD_RCTL, KC_MINUS)
-#define ALT_ENT MT(MOD_LALT, KC_ENT)
+// #define CTL_ESC MT(MOD_LCTL, KC_ESC)
+// #define CTL_QUOT MT(MOD_RCTL, KC_QUOTE)
+// #define CTL_MINS MT(MOD_RCTL, KC_MINUS)
+// #define ALT_ENT MT(MOD_LALT, KC_ENT)
 
 #define SPC_NAV LT(_NAV,KC_SPC)
 #define BSP_SYM LT(_SYM,KC_BSPC)
@@ -47,7 +48,7 @@ enum layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /*
- * Base Layer: Colemak DH
+ * Base Layer: Colemak NL - Mac
  *   ,-----------------------------------------------------.                                      ,-----------------------------------------------------.
  *   |  Tab   |   Q    |   W    |   F    |   P    |   G    |                                      |   Y    |   L    |   U    |   J    |  '  "  |  Bksp  |
  *   |--------+--------+--------+--------+--------+--------|                                      |--------+--------+--------+--------+--------+--------|
@@ -55,16 +56,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   |--------+--------+--------+--------+--------+--------+-----------------.  ,--------+--------+--------+--------+--------+--------+--------+--------|
  *   | Ctrl   |   Z    |   X    |   C    |   V    |   B    |  Alt   |  Esc   |  |  F12   | Leader |   K    |   M    | ,  <   |  . >   |  /  ?  | RShift |
  *   `--------------------------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------------------------'
- *                              | Adjust |  Tab   | Space  |  Cmd   | Hyper  |  |  Sym   | Enter  |  Bksp  |  Del   |  Menu  |
+ *                              | Adjust |  Tab   | Space  |  Cmd   |  Ctrl  |  | Hyper  | Enter  |  Bksp  |  Del   |  Menu  |
  *                              |        |        |  L1    |        |        |  |        |        |   L2   |        |        |
  *                              `--------------------------------------------'  `--------------------------------------------'
  */
 
-    [_COLEMAK_NL] = LAYOUT(
+    [_COLEMAK_NL_MAC] = LAYOUT(
       KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                                           KC_Y,    KC_L,    KC_U,    KC_J,    KC_QUOT, KC_BSPC,
       KC_LSFT, KC_A,    KC_R,    KC_S,    KC_T,    KC_D,                                           KC_H,    KC_N,    KC_E,    KC_I,    KC_O   , KC_SCLN,
       KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_LALT, KC_ESC,     KC_F12,  KC_LEAD, KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                                 ADJUST,  KC_TAB,  SPC_NAV, KC_LGUI, KC_HYPR,    SYM,     KC_ENT , BSP_SYM, KC_DEL,  KC_APP
+                                 ADJUST,  KC_TAB,  SPC_NAV, KC_LGUI, KC_LCTL,    KC_HYPR, KC_ENT , BSP_SYM, KC_DEL,  KC_APP
+    ),
+
+/*
+ * Base Layer: Colemak NL - Win
+ *   ,-----------------------------------------------------.                                      ,-----------------------------------------------------.
+ *   |  Tab   |   Q    |   W    |   F    |   P    |   G    |                                      |   Y    |   L    |   U    |   J    |  '  "  |  Bksp  |
+ *   |--------+--------+--------+--------+--------+--------|                                      |--------+--------+--------+--------+--------+--------|
+ *   | LShift |   A    |   R    |   S    |   T    |   D    |                                      |   H    |   N    |   E    |   I    |   O    |  ;  :  |
+ *   |--------+--------+--------+--------+--------+--------+-----------------.  ,--------+--------+--------+--------+--------+--------+--------+--------|
+ *   | Ctrl   |   Z    |   X    |   C    |   V    |   B    |  Alt   |  Esc   |  |  F12   | Leader |   K    |   M    | ,  <   |  . >   |  /  ?  | RShift |
+ *   `--------------------------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------------------------'
+ *                              | Adjust |  Tab   | Space  |  Ctrl  |  GUI   |  | Hyper  | Enter  |  Bksp  |  Del   |  Menu  |
+ *                              |        |        |  NAV   |        |        |  |        |        |  SYM   |        |        |
+ *                              `--------------------------------------------'  `--------------------------------------------'
+ */
+
+    [_COLEMAK_NL_WIN] = LAYOUT(
+      KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                                           KC_Y,    KC_L,    KC_U,    KC_J,    KC_QUOT, KC_BSPC,
+      KC_LSFT, KC_A,    KC_R,    KC_S,    KC_T,    KC_D,                                           KC_H,    KC_N,    KC_E,    KC_I,    KC_O   , KC_SCLN,
+      KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_LALT, KC_ESC,     KC_F12,  KC_LEAD, KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
+                                 ADJUST,  KC_TAB,  SPC_NAV, KC_LCTL, KC_LGUI,    KC_HYPR, KC_ENT , BSP_SYM, KC_DEL,  KC_APP
     ),
 
 /*
@@ -77,7 +99,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   |--------+--------+--------+--------+--------+--------+-----------------.  ,--------+--------+--------+--------+--------+--------+--------+--------|
  *   |        |        |        |        |        |        |        |        |  |        |        |        |  Home  |  PGUP  |  PGDN  |  END   |        |
  *   `--------------------------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------------------------'
- *                              |        |        |  (L1)  |        |        |  |        |        |  Bksp  |        |        |
+ *                              |        |        | (NAV)  |        |        |  |        |        |  Bksp  |        |        |
  *                              `--------------------------------------------'  `--------------------------------------------'
  */
     [_NAV] = LAYOUT(
@@ -96,14 +118,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   |--------+--------+--------+--------+--------+--------+-----------------.  ,--------+--------+--------+--------+--------+--------+--------+--------|
  *   |        |   &    |   )    |   ]    |   }    |   >    |        |        |  |        |        |   +    |   _    |   ?    |   !    |   \    |        |
  *   `--------------------------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------------------------'
- *                              |        |        |        |        |        |  |        |        |        |        |        |
+ *                              |        |        | Space  |        |        |  |        |        | (SYM)  |        |        |
  *                              `--------------------------------------------'  `--------------------------------------------'
  */
     [_SYM] = LAYOUT(
       _______,  KC_GRV, KC_TILD, KC_HASH, KC_PERC, KC_NO,                                          KC_NO,   KC_EQL,  KC_ASTR, KC_BSLS, KC_DQUO, KC_NO,
       _______,  KC_AT,  KC_LPRN, KC_LBRC, KC_LCBR, KC_LT,                                          KC_CIRC, KC_MINS, KC_SLSH, KC_PIPE, KC_DLR,  KC_COLN,
       _______,  KC_AMPR,KC_RPRN, KC_RBRC, KC_RCBR, KC_GT,   _______, _______,    _______, _______, KC_PLUS, KC_UNDS, KC_QUES, KC_EXLM, KC_BSLS, KC_NO,
-                                 _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______
+                                 _______, _______, KC_SPC,  _______, _______,    _______, _______, _______, _______, _______
     ),
 
 /*
@@ -223,21 +245,21 @@ bool oled_task_user(void) {
         oled_write_P(PSTR("Kyria rev2.0\n\n"), false);
 
         // Host Keyboard Layer Status
-        oled_write_P(PSTR("Layer: "), false);
+        oled_write_P(PSTR(">>> "), false);
         switch (get_highest_layer(layer_state | default_layer_state)) {
             case 0:
                 oled_write_P(PSTR("ColemakNL-Mac\n"), false);
                 break;
-            case 1:
+            case _NAV:
                 oled_write_P(PSTR("Nav\n"), false);
                 break;
-            case 2:
+            case _SYM:
                 oled_write_P(PSTR("Sym\n"), false);
                 break;
-            case 3:
+            case _FUNCTION:
                 oled_write_P(PSTR("Function\n"), false);
                 break;
-            case 4:
+            case _ADJUST:
                 oled_write_P(PSTR("Adjust\n"), false);
                 break;
             default:
