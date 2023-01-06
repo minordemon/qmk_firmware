@@ -50,27 +50,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
 // Otherwise, it needs KC_*
-[_COLEMAK_NL] = LAYOUT_ergodox(  // layer 0 : default
-        // left hand
-        KC_GRV,         KC_1,    KC_2,         KC_3,    KC_4,   KC_5,   KC_LEFT,
-        KC_TAB,         KC_Q,    KC_W,         KC_F,    KC_P,   KC_G,   TG(SYMB),
-        KC_LSFT,        KC_A,    KC_R,         KC_S,    KC_T,   KC_D,
-        KC_LCTL,        KC_Z,    KC_X,         KC_C,    KC_V,   KC_B,   ALL_T(KC_NO),
-        LT(SYMB,KC_GRV),KC_QUOT, LALT(KC_LSFT),KC_LEFT, KC_RGHT,
-                                               ALT_T(KC_APP),   KC_ESC,
-                                                                KC_HOME,
-                                               SPC_NAV, KC_LGUI,KC_END,
+[_COLEMAK_NL] = LAYOUT_ergodox_pretty(
+  // left hand
+  KC_GRV,          KC_1,        KC_2,          KC_3,    KC_4,    KC_5,    KC_ESC,          KC_RGHT,      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_BSPC,
+  KC_TAB,          KC_Q,        KC_W,          KC_F,    KC_P,    KC_G,    TG(SYMB),        TG(SYMB),     KC_Y,    KC_L,    KC_U,    KC_J,    KC_QUOT,  KC_MINS,
+  KC_LSFT,         KC_A,        KC_R,          KC_S,    KC_T,    KC_D,                                   KC_H,    KC_N,    KC_E,    KC_I,    KC_O,     KC_SCLN,
+  KC_LCTL,         KC_Z,        KC_X,          KC_C,    KC_V,    KC_B,    ALL_T(KC_NO),    MEH_T(KC_NO), KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_RSFT,
+  LT(SYMB,KC_GRV), KC_QUOT,     LALT(KC_LSFT), KC_LEFT, KC_RGHT,                                                  KC_DEL,  KC_LEFT, KC_UP,   KC_DOWN,  KC_RGHT,
+                                                           ALT_T(KC_APP), KC_ESC,          KC_PGUP, CTL_T(KC_ESC),
+                                                                          KC_HOME,         KC_PGDN,
+                                                        SPC_NAV, KC_LGUI, KC_END,          KC_LALT, KC_ENT, BSP_SYM
+),
 
-        // right hand
-             KC_RGHT,     KC_6,   KC_7,   KC_8,   KC_9,   KC_0,      KC_MINS,
-             TG(SYMB),    KC_Y,   KC_L,   KC_U,   KC_J,   KC_QUOT,   KC_DEL,
-                          KC_H,   KC_N,   KC_ E,  KC_I,   KC_O,      KC_SCLN,
-             MEH_T(KC_NO),KC_K,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,   KC_RSFT,
-                                  KC_UP,  KC_DOWN,KC_LBRC,KC_RBRC,   TT(SYMB),
-             KC_LALT,        CTL_T(KC_ESC),
-             KC_PGUP,
-             KC_PGDN,KC_TAB, KC_ENT
-    ),
 /* Keymap 1: Symbol Layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
